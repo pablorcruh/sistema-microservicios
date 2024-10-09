@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: cliente
+  datasource:
+    url: jdbc:postgresql://localhost:5432/clientes
+    username: root
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
