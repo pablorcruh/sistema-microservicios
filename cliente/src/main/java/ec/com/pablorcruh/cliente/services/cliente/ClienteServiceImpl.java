@@ -1,32 +1,45 @@
 package ec.com.pablorcruh.cliente.services.cliente;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ec.com.pablorcruh.cliente.dtos.converter.ClienteConverter;
 import ec.com.pablorcruh.cliente.dtos.request.ClienteDTORequest;
 import ec.com.pablorcruh.cliente.dtos.response.ClienteDTOResponse;
 import ec.com.pablorcruh.cliente.exceptions.NotFoundException;
 import ec.com.pablorcruh.cliente.models.Cliente;
+import ec.com.pablorcruh.cliente.models.ClienteCreatedEvent;
 import ec.com.pablorcruh.cliente.repositories.ClienteRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 import static java.lang.Boolean.*;
 
 @Service
+@Transactional
 public class ClienteServiceImpl implements ClienteService{
 
     private final ClienteRepository clienteRepository;
 
     private final ClienteConverter clienteConverter;
 
-    public ClienteServiceImpl(ClienteRepository clienteRepository, ClienteConverter clienteConverter) {
+    private final ClienteEventService clienteEventService;
+
+    private final ObjectMapper objectMapper;
+
+
+    public ClienteServiceImpl(ClienteRepository clienteRepository, ClienteConverter clienteConverter, ClienteEventService clienteEventService, ObjectMapper objectMapper) {
         this.clienteRepository = clienteRepository;
         this.clienteConverter = clienteConverter;
+        this.clienteEventService = clienteEventService;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -34,6 +47,11 @@ public class ClienteServiceImpl implements ClienteService{
         Cliente cliente = clienteConverter.toEntity(request);
         cliente.setStatus(TRUE);
         Cliente clienteSaved = clienteRepository.save(cliente);
+        ClienteCreatedEvent clienteCreatedEvent = new ClienteCreatedEvent(
+                UUID.randomUUID().toString(),
+                cliente,
+                LocalDateTime.now());
+        clienteEventService.save(clienteCreatedEvent);
         return clienteConverter.toResponse(clienteSaved);
     }
 
@@ -71,5 +89,13 @@ public class ClienteServiceImpl implements ClienteService{
 
     private Cliente findClienteById(UUID id) {
         return clienteRepository.findById(id).orElse(null);
+    }
+
+    private String toJsonPayload(Object object) {
+        try {
+            return objectMapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
