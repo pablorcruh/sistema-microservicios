@@ -49,7 +49,7 @@ public class ClienteServiceImpl implements ClienteService{
         Cliente clienteSaved = clienteRepository.save(cliente);
         ClienteCreatedEvent clienteCreatedEvent = new ClienteCreatedEvent(
                 UUID.randomUUID().toString(),
-                cliente,
+                cliente.getName(),
                 LocalDateTime.now());
         clienteEventService.save(clienteCreatedEvent);
         return clienteConverter.toResponse(clienteSaved);
