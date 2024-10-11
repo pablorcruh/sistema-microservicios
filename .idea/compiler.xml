@@ -12,9 +12,6 @@
         <module name="cuentas" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="sistema_microservicios" target="1.5" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

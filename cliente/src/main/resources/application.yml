@@ -9,7 +9,7 @@ spring:
   application:
     name: cliente
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:25432/clientes}
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/clientes}
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:password}
     driver-class-name: org.postgresql.Driver
