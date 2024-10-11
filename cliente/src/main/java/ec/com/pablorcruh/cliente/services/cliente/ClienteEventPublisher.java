@@ -20,6 +20,6 @@ public class ClienteEventPublisher {
     }
 
     private void send(String routingKey, Object payload) {
-        rabbitTemplate.convertAndSend(properties.orderEventsExchange(), routingKey, payload);
+        rabbitTemplate.convertAndSend(properties.clientesEventsExchange(), routingKey, payload);
     }
 }

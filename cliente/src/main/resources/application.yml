@@ -2,10 +2,10 @@ server:
   port: 8000
 spring:
   rabbitmq:
-    host:
-    port:
-    username:
-    password:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
   application:
     name: cliente
   datasource:
@@ -25,5 +25,5 @@ spring:
 
 clientes:
   publish-order-events-job-cron: 1 * * * * *
-  cliente-events-exchange: clientes-exchange
-  new-cliente-queue: clientes
+  clientes-events-exchange: cliente-exchange
+  new-cliente-queue: cliente

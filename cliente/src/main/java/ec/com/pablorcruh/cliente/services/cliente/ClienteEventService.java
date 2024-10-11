@@ -46,7 +46,7 @@ public class ClienteEventService {
     public void pusblishClienteEvents(){
         Sort sort = Sort.by("createdAt").ascending();
         List<ClienteEvent> events = this.clienteEventRepository.findAll(sort);
-        log.info("Found {} Order Events to be published", events.size());
+        log.info("Found {} Client Events to be published", events.size());
         for (ClienteEvent event : events) {
             this.publishEvent(event);
             clienteEventRepository.delete(event);

@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "clientes")
 public record ApplicationProperties(
-        String orderEventsExchange,
+        String clientesEventsExchange,
         String newClienteQueue
 ) {
 }
