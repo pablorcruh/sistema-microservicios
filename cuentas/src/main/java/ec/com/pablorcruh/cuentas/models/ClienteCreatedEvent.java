@@ -1,4 +1,4 @@
-package ec.com.pablorcruh.cliente.models;
+package ec.com.pablorcruh.cuentas.models;
 
 import java.time.LocalDateTime;
 

@@ -18,6 +18,7 @@ public class Persona implements Serializable {
     @Id
     private UUID id;
 
+    @Column(unique = true, nullable = false)
     private String name;
 
     private String gender;
