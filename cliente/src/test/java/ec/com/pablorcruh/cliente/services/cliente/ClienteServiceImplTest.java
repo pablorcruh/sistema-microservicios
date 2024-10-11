@@ -1,5 +1,6 @@
 package ec.com.pablorcruh.cliente.services.cliente;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ec.com.pablorcruh.cliente.dtos.converter.ClienteConverter;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,16 +31,22 @@ class ClienteServiceImplTest {
     ClienteRepository repository;
 
     @Mock
+    ClienteEventService clienteEventService;
+
+    @Mock
     ModelMapper modelMapper;
 
     @Mock
     ClienteConverter converter;
 
+    @Mock
+    ObjectMapper objectMapper;
+
     @BeforeEach
     void setup(){
         modelMapper = new ModelMapper();
         converter = new ClienteConverter(modelMapper);
-        underTest = new ClienteServiceImpl(repository, converter);
+        underTest = new ClienteServiceImpl(repository, converter, clienteEventService, objectMapper);
     }
 
 

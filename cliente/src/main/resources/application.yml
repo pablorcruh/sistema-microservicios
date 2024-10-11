@@ -1,6 +1,11 @@
 server:
   port: 8000
 spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
   application:
     name: cliente
   datasource:
@@ -13,7 +18,12 @@ spring:
     open-in-view: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     properties:
       hibernate:
         show_sql: true
+
+clientes:
+  publish-order-events-job-cron: 1 * * * * *
+  clientes-events-exchange: cliente-exchange
+  new-cliente-queue: cliente
