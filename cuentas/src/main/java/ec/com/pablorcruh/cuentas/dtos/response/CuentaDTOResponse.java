@@ -17,5 +17,6 @@ public class CuentaDTOResponse {
     private String accountNumber;
     private String accountType;
     private Double initialBalance;
+    private String clienteName;
     private List<MovimientoDTOResponse> movimientos;
 }

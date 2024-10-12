@@ -34,6 +34,7 @@ public class CuentaConverter {
                 .id(entity.getId())
                 .accountNumber(entity.getAccountNumber())
                 .accountType(entity.getAccountType())
+                .clienteName(entity.getClienteName())
                 .initialBalance(entity.getInitialBalance())
                 .movimientos(movimientosEntity.stream().map(m -> movimientoConverter.toResponse(m)).collect(Collectors.toList()))
                 .build();

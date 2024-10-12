@@ -3,6 +3,7 @@ package ec.com.pablorcruh.cuentas.services.movimiento;
 import ec.com.pablorcruh.cuentas.dtos.converters.MovimientoConverter;
 import ec.com.pablorcruh.cuentas.dtos.request.MovimientoDTORequest;
 import ec.com.pablorcruh.cuentas.dtos.response.MovimientoDTOResponse;
+import ec.com.pablorcruh.cuentas.exceptions.InsufficientBalanceException;
 import ec.com.pablorcruh.cuentas.exceptions.NotFoundException;
 import ec.com.pablorcruh.cuentas.models.Cuenta;
 import ec.com.pablorcruh.cuentas.models.Movimiento;
@@ -10,8 +11,7 @@ import ec.com.pablorcruh.cuentas.repositories.CuentaRepository;
 import ec.com.pablorcruh.cuentas.repositories.MovimientoRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class MovimientoServiceImpl implements MovimientoService {
@@ -30,14 +30,32 @@ public class MovimientoServiceImpl implements MovimientoService {
 
     @Override
     public MovimientoDTOResponse createMovimiento(UUID cuentaId, MovimientoDTORequest request) {
+        Double processBalance;
+        Movimiento  movimientoAux;
         Cuenta cuenta = findCuentayId(cuentaId);
         if(cuenta == null){
-            throw new NotFoundException(String.format("Movimiento with id %s no found", cuentaId));
+            throw new NotFoundException(String.format("Cuenta with id %s no found", cuentaId));
+        }
+        if(request.getValue() > cuenta.getInitialBalance()){
+            throw new InsufficientBalanceException("Saldo Insuficiente para realizar movimiento");
+        }
+        List<Movimiento> movimientos = movimientoRepository.getMovimientosByAccount(cuenta.getId());
+        if(movimientos.size() > 0){
+            movimientoAux = movimientos.get(0);
+            processBalance = movimientoAux.getBalance() + request.getValue();
+        }else{
+            processBalance = cuenta.getInitialBalance() + request.getValue();
         }
         Movimiento movimiento = movimientoConverter.toEntity(request);
         movimiento.setDate(new Date());
         movimiento.setCuenta(cuenta);
-        movimiento.setMovementType(request.getMovementType());
+        movimiento.setBalance(processBalance);
+        movimiento.setValue(request.getValue());
+        if(request.getValue()>0){
+            movimiento.setMovementType("Deposito: "+ request.getValue());
+        }else{
+            movimiento.setMovementType("Retiro: "+ request.getValue());
+        }
         Movimiento movimientoSaved = movimientoRepository.save(movimiento);
         return movimientoConverter.toResponse(movimientoSaved);
     }

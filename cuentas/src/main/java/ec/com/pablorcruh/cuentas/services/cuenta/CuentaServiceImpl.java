@@ -5,6 +5,7 @@ import ec.com.pablorcruh.cuentas.dtos.request.CuentaDTORequest;
 import ec.com.pablorcruh.cuentas.dtos.response.CuentaDTOResponse;
 import ec.com.pablorcruh.cuentas.exceptions.NotFoundException;
 import ec.com.pablorcruh.cuentas.models.Cuenta;
+import ec.com.pablorcruh.cuentas.repositories.ClienteEventRepository;
 import ec.com.pablorcruh.cuentas.repositories.CuentaRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,15 +23,22 @@ public class CuentaServiceImpl implements CuentaService {
 
     private final CuentaRepository cuentaRepository;
 
+    private final ClienteEventRepository clienteEventRepository;
+
     private final CuentaConverter cuentaConverter;
 
-    public CuentaServiceImpl(CuentaRepository cuentaRepository, CuentaConverter cuentaConverter) {
+    public CuentaServiceImpl(CuentaRepository cuentaRepository, ClienteEventRepository clienteEventRepository, CuentaConverter cuentaConverter) {
         this.cuentaRepository = cuentaRepository;
+        this.clienteEventRepository = clienteEventRepository;
         this.cuentaConverter = cuentaConverter;
     }
 
     @Override
     public CuentaDTOResponse createCuenta(CuentaDTORequest request) {
+        boolean isClientePresent = clienteEventRepository.existsByPayload(request.getClienteName());
+        if(!isClientePresent){
+            throw new NotFoundException("Cliente no encontrado");
+        }
         Cuenta cuenta = cuentaConverter.toEntity(request);
         cuenta.setStatus(TRUE);
         Cuenta cuentaSaved = cuentaRepository.save(cuenta);

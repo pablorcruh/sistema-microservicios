@@ -19,6 +19,14 @@ public class ControllerAdvicer extends ResponseEntityExceptionHandler {
         return buildErrorResponse(e, e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(InsufficientBalanceException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<Object> handleInsufficientBalanceException(InsufficientBalanceException e) {
+        log.error(e.getMessage());
+        return buildErrorResponse(e, e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
     private ResponseEntity<Object> buildErrorResponse(Exception exception, String message, HttpStatus httpStatus) {
         ErrorResponse errorResponse = new ErrorResponse(httpStatus.value(), message);
         return ResponseEntity.status(httpStatus).body(errorResponse);

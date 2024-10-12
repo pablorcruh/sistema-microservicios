@@ -22,6 +22,7 @@ public class Cuenta extends BaseEntity{
     private String accountType;
     private Double initialBalance;
     private Boolean status;
+    private String clienteName;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "cuenta")
     private Set<Movimiento> movimientos = new HashSet<>();

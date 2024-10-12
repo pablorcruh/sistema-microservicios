@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ClienteEventRepository extends JpaRepository<ClienteEvent, Long> {
     boolean existsByEventId(String eventId);
+    boolean existsByPayload(String clienteName);
 }

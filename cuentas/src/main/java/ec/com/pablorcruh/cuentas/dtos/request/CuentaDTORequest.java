@@ -14,5 +14,5 @@ public class CuentaDTORequest {
     private String accountNumber;
     private String accountType;
     private Double initialBalance;
-    private String clientName;
+    private String clienteName;
 }

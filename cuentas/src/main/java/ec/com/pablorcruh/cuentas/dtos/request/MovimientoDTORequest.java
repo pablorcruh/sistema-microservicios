@@ -11,7 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MovimientoDTORequest {
 
-    private String accountType;
-    private Double initialBalance;
-    private String movementType;
+    private Double value;
 }
