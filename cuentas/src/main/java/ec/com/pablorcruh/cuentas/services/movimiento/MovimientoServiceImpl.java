@@ -36,7 +36,7 @@ public class MovimientoServiceImpl implements MovimientoService {
         if(cuenta == null){
             throw new NotFoundException(String.format("Cuenta with id %s no found", cuentaId));
         }
-        if(request.getValue() > cuenta.getInitialBalance()){
+        if(Double.compare(request.getValue(),cuenta.getInitialBalance()) > 0){
             throw new InsufficientBalanceException("Saldo Insuficiente para realizar movimiento");
         }
         List<Movimiento> movimientos = movimientoRepository.getMovimientosByAccount(cuenta.getId());
