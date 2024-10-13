@@ -1,9 +1,6 @@
 package ec.com.pablorcruh.cuentas.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,10 +15,19 @@ import java.util.Set;
 @Table(name = "cuentas")
 public class Cuenta extends BaseEntity{
 
+    @Column
     private String accountNumber;
+
+    @Column
     private String accountType;
+
+    @Column
     private Double initialBalance;
+
+    @Column
     private Boolean status;
+
+    @Column
     private String clienteName;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "cuenta")
