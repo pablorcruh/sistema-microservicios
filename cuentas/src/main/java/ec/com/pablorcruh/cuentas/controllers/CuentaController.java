@@ -3,6 +3,7 @@ package ec.com.pablorcruh.cuentas.controllers;
 import ec.com.pablorcruh.cuentas.dtos.request.CuentaDTORequest;
 import ec.com.pablorcruh.cuentas.dtos.response.CuentaDTOResponse;
 import ec.com.pablorcruh.cuentas.services.cuenta.CuentaService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class CuentaController {
 
     @PostMapping
     public ResponseEntity<CuentaDTOResponse> createCuenta(
-            @RequestBody CuentaDTORequest request
+           @Valid @RequestBody CuentaDTORequest request
     ){
         CuentaDTOResponse response = cuentaService.createCuenta(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
