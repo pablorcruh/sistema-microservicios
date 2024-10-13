@@ -1,9 +1,6 @@
 package ec.com.pablorcruh.cuentas.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,9 +14,15 @@ import java.util.Date;
 @Table(name = "movimientos")
 public class Movimiento extends BaseEntity{
 
+    @Column
     private String movementType;
+    @Column
     private Double value;
+    @Column
     private Double balance;
+
+    @Column
+    @Temporal(TemporalType.DATE)
     private Date date;
 
     @ManyToOne
