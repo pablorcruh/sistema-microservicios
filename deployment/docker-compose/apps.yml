@@ -29,8 +29,8 @@ services:
       logging: "promtail"
 
   cliente-service:
-    image: pablorcruh/clientes
-    container_name: clientes-service
+    image: pablorcruh/cliente
+    container_name: cliente-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - DB_URL=jdbc:postgresql://cliente-db:5432/clientes
@@ -60,10 +60,8 @@ services:
     container_name: api-gateway
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - CATALOG_SERVICE_URL=http://catalog-service:8081
-      - ORDER_SERVICE_URL=http://order-service:8082
-      - MANAGEMENT_TRACING_ENABLED=true
-      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411
+      - CLIENTE_URL=http://ciente:8000
+      - CUENTAS_URL=http://cuentas:900
     ports:
       - "8989:8989"
     restart: unless-stopped
