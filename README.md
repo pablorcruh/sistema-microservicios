@@ -47,7 +47,7 @@ every other service is ready to be deployed locally from the docker images from 
 
 Before running the docker compose file it necessary to add the .env file with the excepted values
 
-To run the solition
+To run the solution
 ```dockerignore
 docker-compose up
 ```
