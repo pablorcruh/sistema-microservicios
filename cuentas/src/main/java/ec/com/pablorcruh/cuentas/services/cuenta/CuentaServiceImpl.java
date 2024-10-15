@@ -52,7 +52,6 @@ public class CuentaServiceImpl implements CuentaService {
             throw new NotFoundException(String.format("Movimiento with id %s no found", id));
         }
         cuenta.setAccountType(request.getAccountType());
-        cuenta.setInitialBalance(request.getInitialBalance());
         Cuenta cuentaSaved = cuentaRepository.save(cuenta);
         return cuentaConverter.toResponse(cuentaSaved);
     }

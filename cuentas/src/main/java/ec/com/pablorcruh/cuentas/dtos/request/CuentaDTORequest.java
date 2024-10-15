@@ -17,7 +17,5 @@ public class CuentaDTORequest {
     @NotNull
     private String accountType;
     @NotNull
-    private Double initialBalance;
-    @NotNull
     private String clienteName;
 }
