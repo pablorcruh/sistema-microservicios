@@ -9,7 +9,7 @@
   **TechStack:** Spring Boot, Spring Data JPA, PostgreSQL
 
 
-* **cliente-service**:
+* **cuentas-service**:
   This service provides the REST API for managing cuentas and movimientos, consumes clients events before be able to create an account.
 
   **TechStack:** Spring Boot, Spring Data JPA, PostgreSQL
