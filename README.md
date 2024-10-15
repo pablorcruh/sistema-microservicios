@@ -42,7 +42,7 @@ Postmant endpoint definition
 ## Local Deployment
 
 The all project is defined as container elements to be used directly from the docker compose
-file, the RabbitMQ queue is defined as an external service from ![cloud-amqp](https://www.cloudamqp.com/),
+file, the RabbitMQ queue is defined as an external service from [cloud-amqp](https://www.cloudamqp.com/),
 every other service is ready to be deployed locally from the docker images from docker hub.
 
 Before running the docker compose file it necessary to add the .env file with the excepted values
