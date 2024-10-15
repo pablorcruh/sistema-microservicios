@@ -21,6 +21,7 @@
         <module>cliente</module>
         <module>cuentas</module>
         <module>api-gateway</module>
+        <module>eureka-server</module>
     </modules>
 
     <build>

@@ -1,0 +1,89 @@
+version: '3.0'
+services:
+  eureka-server:
+    image: pablorcruh/eureka-server
+    environment:
+      - DOCKER_HOST=localhost
+    ports:
+      - "8761:8761"
+  cliente-service:
+    image: pablorcruh/cliente
+    container_name: cliente-service
+    environment:
+      - DB_URL=jdbc:postgresql://cliente-db:5432/clientes
+      - DB_USERNAME=root
+      - DB_PASSWORD=password
+      - RABBITMQ_HOST=$RABBITMQ_HOST
+      - RABBITMQ_PORT=$RABBITMQ_PORT
+      - RABBITMQ_USERNAME=$RABBITMQ_USERNAME
+      - RABBITMQ_PASSWORD=$RABBITMQ_PASSWORD
+      - RABBITMQ_VIRTUAL_HOST=$RABBITMQ_VIRTUAL_HOST
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    depends_on:
+      - cliente-db
+      - eureka-server
+    labels:
+      logging: "promtail"
+
+  cliente-db:
+    image: postgres:16-alpine
+    container_name: cliente-db
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=clientes
+    ports:
+      - "25432:5432"
+
+  cuentas-service:
+    image: pablorcruh/cuentas
+    container_name: cuentas-service
+    environment:
+      - DB_URL=jdbc:postgresql://cuentas-db:5432/cuentas
+      - DB_USERNAME=root
+      - DB_PASSWORD=password
+      - RABBITMQ_HOST=$RABBITMQ_HOST
+      - RABBITMQ_PORT=$RABBITMQ_PORT
+      - RABBITMQ_USERNAME=$RABBITMQ_USERNAME
+      - RABBITMQ_PASSWORD=$RABBITMQ_PASSWORD
+      - RABBITMQ_VIRTUAL_HOST=$RABBITMQ_VIRTUAL_HOST
+      - SWAGGER_API_GATEWAY_URL=http://api-gateway:8989/cuentas
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+    ports:
+      - "9000:9000"
+    restart: unless-stopped
+    depends_on:
+      - cuentas-db
+      - eureka-server
+    labels:
+      logging: "promtail"
+
+  cuentas-db:
+    image: postgres:16-alpine
+    container_name: cuentas-db
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=cuentas
+    ports:
+      - "35432:5432"
+
+  api-gateway:
+    image: pablorcruh/api-gateway
+    container_name: api-gateway
+    environment:
+      - CLIENTE_SERVICE_URL=http://cliente-service:8000
+      - CUENTAS_SERVICE_URL=http://cuentas-service:9000
+    ports:
+      - "8989:8989"
+    restart: unless-stopped
+    depends_on:
+      - cuentas-service
+      - cliente-service
+    labels:
+      logging: "promtail"
+    

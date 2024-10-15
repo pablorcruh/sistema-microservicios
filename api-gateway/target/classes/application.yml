@@ -40,10 +40,6 @@ spring:
           uri: ${CUENTAS_SERVICE_URL:http://localhost:9000}
           predicates:
             - Path=/cuentas/**
-        - id: movimientos-service
-          uri: ${MOVIMIENTOS_SERVICE_URL:http://localhost:9000}
-          predicates:
-            - Path=/movimientos/**
         - id: openapi
           uri: http://localhost:${server.port}
           predicates:
