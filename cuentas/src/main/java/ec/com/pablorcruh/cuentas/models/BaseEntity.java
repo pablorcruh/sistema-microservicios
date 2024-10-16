@@ -15,13 +15,8 @@ public class BaseEntity implements Serializable {
     @Id
     private UUID id;
 
-    @Column
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
-
     @PrePersist
     public void prePersist() {
-        this.date = new Date(System.currentTimeMillis());
         this.id = UUID.randomUUID();
     }
 }

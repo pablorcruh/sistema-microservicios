@@ -12,7 +12,12 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "movimientos")
-public class Movimiento extends BaseEntity{
+public class Movimiento {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cliente_event_id_generator")
+    @SequenceGenerator(name = "cliente_event_id_generator", sequenceName = "cliente_event_id_seq")
+    private Long id;
 
     @Column
     private String movementType;
@@ -20,6 +25,9 @@ public class Movimiento extends BaseEntity{
     private Double value;
     @Column
     private Double balance;
+    @Column
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
 
     @ManyToOne
     @JoinColumn(name = "account_id")

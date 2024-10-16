@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public interface MovimientoRepository extends JpaRepository<Movimiento, UUID> {
 
-    @Query(value = "select m from Movimiento m where m.cuenta.id = :accountId order by m.date DESC" )
+    @Query(value = "select m from Movimiento m where m.cuenta.id = :accountId order by m.id DESC" )
     List<Movimiento> getMovimientosByAccount(@Param(value = "accountId") UUID accountId);
 
     @Query(value = "select m from Movimiento m where m.date between :startDate and :endDate and m.cuenta.id = :accountId order by m.date DESC ")

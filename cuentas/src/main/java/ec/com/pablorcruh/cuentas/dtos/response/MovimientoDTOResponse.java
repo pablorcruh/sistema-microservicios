@@ -13,7 +13,7 @@ import java.util.UUID;
 @Builder
 public class MovimientoDTOResponse {
 
-    private UUID id;
+    private Long id;
     private String accountType;
     private Double initialBalance;
     private String movementType;
