@@ -15,8 +15,8 @@ import java.util.Date;
 public class Movimiento {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cliente_event_id_generator")
-    @SequenceGenerator(name = "cliente_event_id_generator", sequenceName = "cliente_event_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movimientos_event_id_generator")
+    @SequenceGenerator(name = "movimientos_event_id_generator", sequenceName = "movimiento_event_id_seq")
     private Long id;
 
     @Column
