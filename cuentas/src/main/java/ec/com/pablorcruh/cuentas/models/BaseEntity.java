@@ -1,12 +1,11 @@
 package ec.com.pablorcruh.cuentas.models;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.PrePersist;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.UUID;
 
 @Getter
@@ -16,8 +15,13 @@ public class BaseEntity implements Serializable {
     @Id
     private UUID id;
 
+    @Column
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
+
     @PrePersist
     public void prePersist() {
+        this.date = new Date(System.currentTimeMillis());
         this.id = UUID.randomUUID();
     }
 }

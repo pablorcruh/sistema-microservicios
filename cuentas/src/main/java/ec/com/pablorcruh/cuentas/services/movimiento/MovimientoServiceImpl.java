@@ -16,6 +16,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -41,18 +43,31 @@ public class MovimientoServiceImpl implements MovimientoService {
         if(cuenta == null){
             throw new NotFoundException(String.format("Cuenta with id %s no found", cuentaId));
         }
-        if(Double.compare(request.getValue(),cuenta.getInitialBalance()) > 0){
-            throw new InsufficientBalanceException("Saldo Insuficiente para realizar movimiento");
-        }
         List<Movimiento> movimientos = movimientoRepository.getMovimientosByAccount(cuenta.getId());
         if(movimientos.size() > 0){
             movimientoAux = movimientos.get(0);
+            if(request.getValue()<0){
+                // retiro
+                if(Math.signum(request.getValue())<0){
+                    if(Math.abs(request.getValue()) > movimientoAux.getBalance()){
+                        throw new InsufficientBalanceException("Saldo Insuficiente para realizar movimiento");
+                    }
+                }
+            }
             processBalance = movimientoAux.getBalance() + request.getValue();
         }else{
+            if(request.getValue()<0){
+                // retiro
+                if(Math.signum(request.getValue())<0){
+                    if(Math.abs(request.getValue()) > cuenta.getInitialBalance()){
+                        throw new InsufficientBalanceException("Saldo Insuficiente para realizar movimiento");
+                    }
+                }
+            }
             processBalance = cuenta.getInitialBalance() + request.getValue();
         }
         Movimiento movimiento = movimientoConverter.toEntity(request);
-        movimiento.setDate(new Date());
+        movimiento.setDate(new Date(System.currentTimeMillis()));
         movimiento.setCuenta(cuenta);
         movimiento.setBalance(processBalance);
         movimiento.setValue(request.getValue());

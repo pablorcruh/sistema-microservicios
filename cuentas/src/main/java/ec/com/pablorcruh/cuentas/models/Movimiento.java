@@ -21,10 +21,6 @@ public class Movimiento extends BaseEntity{
     @Column
     private Double balance;
 
-    @Column
-    @Temporal(TemporalType.DATE)
-    private Date date;
-
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Cuenta cuenta;
