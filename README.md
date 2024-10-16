@@ -9,7 +9,7 @@
   **TechStack:** Spring Boot, Spring Data JPA, PostgreSQL
 
 
-* **cliente-service**:
+* **cuentas-service**:
   This service provides the REST API for managing cuentas and movimientos, consumes clients events before be able to create an account.
 
   **TechStack:** Spring Boot, Spring Data JPA, PostgreSQL
@@ -47,7 +47,7 @@ every other service is ready to be deployed locally from the docker images from 
 
 Before running the docker compose file it necessary to add the .env file with the excepted values
 
-To run the solition
+To run the solution
 ```dockerignore
 docker-compose up
 ```
