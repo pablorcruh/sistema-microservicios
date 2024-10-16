@@ -39,7 +39,7 @@ spring:
         - id: cuentas-service
           uri: ${CUENTAS_SERVICE_URL:http://localhost:9000}
           predicates:
-            - Path=/cuentas/**
+            - Path=/**
         - id: openapi
           uri: http://localhost:${server.port}
           predicates:

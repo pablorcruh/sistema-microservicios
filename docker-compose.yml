@@ -78,6 +78,7 @@ services:
     environment:
       - CLIENTE_SERVICE_URL=http://cliente-service:8000
       - CUENTAS_SERVICE_URL=http://cuentas-service:9000
+      - MOVIMIENTOS_SERVICE_URL=http://cuentas-service:9000
     ports:
       - "8989:8989"
     restart: unless-stopped
